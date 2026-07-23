@@ -1,0 +1,65 @@
+/* Wave Sidekick — Content Script Styles
+   Floating orb with glassmorphism glow */
+
+.wave-orb {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(10, 10, 20, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 229, 192, 0.3);
+  box-shadow: 0 4px 24px rgba(0, 229, 192, 0.15), 0 2px 8px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+  animation: waveOrbAppear 0.4s ease;
+}
+
+@keyframes waveOrbAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.wave-orb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 32px rgba(0, 229, 192, 0.3), 0 2px 8px rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 229, 192, 0.5);
+}
+
+.wave-orb:active {
+  transform: scale(0.95);
+}
+
+.wave-orb-active {
+  box-shadow: 0 4px 24px rgba(155, 77, 255, 0.25), 0 2px 8px rgba(0, 0, 0, 0.4);
+  border-color: rgba(155, 77, 255, 0.5);
+  animation: waveOrbPulse 1.5s ease infinite;
+}
+
+@keyframes waveOrbPulse {
+  0%, 100% {
+    box-shadow: 0 4px 24px rgba(155, 77, 255, 0.25), 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 32px rgba(155, 77, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.wave-orb svg {
+  pointer-events: none;
+}
