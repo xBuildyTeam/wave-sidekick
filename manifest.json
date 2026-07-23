@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "Wave Sidekick",
+  "version": "1.0.0",
+  "description": "Wave OS Assistant — your AI companion in the browser. Chat, memory, and Chief of Staff actions from any tab.",
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "activeTab",
+    "scripting",
+    "contextMenus",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://oswave.io/*",
+    "https://app.base44.com/*",
+    "https://apps.base44.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Wave Sidekick",
+    "default_icon": {
+      "16": "icons/wave-16.png",
+      "48": "icons/wave-48.png",
+      "128": "icons/wave-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/wave-16.png",
+    "48": "icons/wave-48.png",
+    "128": "icons/wave-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

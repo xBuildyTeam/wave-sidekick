@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wave Sidekick</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <!-- Auth Gate -->
+  <div id="auth-gate" class="auth-gate">
+    <div class="auth-logo">
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+        <defs>
+          <linearGradient id="wave-grad" x1="0" y1="0" x2="56" y2="56">
+            <stop offset="0%" stop-color="#00e5c0"/>
+            <stop offset="100%" stop-color="#9b4dff"/>
+          </linearGradient>
+        </defs>
+        <path d="M28 4C16 4 6 14 6 26c0 8 4 14 10 18 4-6 6-10 12-10s8 4 12 10c6-4 10-10 10-18C50 14 40 4 28 4z" 
+              fill="url(#wave-grad)" opacity="0.9"/>
+        <circle cx="28" cy="26" r="6" fill="#0a0a14"/>
+        <circle cx="28" cy="26" r="3" fill="#00e5c0"/>
+      </svg>
+    </div>
+    <h1 class="auth-title">Wave Sidekick</h1>
+    <p class="auth-subtitle">Connect to Wave OS to bring your AI assistant into any browser tab.</p>
+
+    <div class="auth-input-group">
+      <label for="auth-token" class="auth-label">Wave OS Auth Token</label>
+      <input type="password" id="auth-token" class="auth-input" placeholder="Paste your token from oswave.io/settings" />
+      <p class="auth-hint">Get it from <span class="auth-link">oswave.io → Settings → Developer</span></p>
+    </div>
+
+    <div class="auth-input-group">
+      <label for="workspace-id" class="auth-label">Workspace ID (optional)</label>
+      <input type="text" id="workspace-id" class="auth-input" placeholder="wave-default" />
+    </div>
+
+    <button id="connect-btn" class="btn-primary">Connect to Wave OS</button>
+    <button id="open-oswave" class="btn-secondary">Open oswave.io</button>
+    <div id="auth-error" class="auth-error" style="display:none;"></div>
+  </div>
+
+  <!-- Main Panel -->
+  <div id="main-panel" class="main-panel" style="display:none;">
+    <!-- Header -->
+    <div class="panel-header">
+      <div class="header-left">
+        <div class="header-logo">
+          <svg width="28" height="28" viewBox="0 0 56 56" fill="none">
+            <defs>
+              <linearGradient id="wave-grad-2" x1="0" y1="0" x2="56" y2="56">
+                <stop offset="0%" stop-color="#00e5c0"/>
+                <stop offset="100%" stop-color="#9b4dff"/>
+              </linearGradient>
+            </defs>
+            <path d="M28 4C16 4 6 14 6 26c0 8 4 14 10 18 4-6 6-10 12-10s8 4 12 10c6-4 10-10 10-18C50 14 40 4 28 4z" 
+                  fill="url(#wave-grad-2)" opacity="0.9"/>
+            <circle cx="28" cy="26" r="6" fill="#0a0a14"/>
+            <circle cx="28" cy="26" r="3" fill="#00e5c0"/>
+          </svg>
+        </div>
+        <span class="header-title">Wave Assistant</span>
+      </div>
+      <div class="header-actions">
+        <button id="speak-btn" class="icon-btn" title="Read last response aloud">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+        </button>
+        <button id="stop-speak-btn" class="icon-btn" title="Stop reading" style="display:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        </button>
+        <button id="context-btn" class="icon-btn" title="Page context">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+            <path d="M2 12h20"/>
+          </svg>
+        </button>
+        <button id="settings-btn" class="icon-btn" title="Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Context Banner -->
+    <div id="context-banner" class="context-banner" style="display:none;">
+      <div class="context-icon">📄</div>
+      <div class="context-info">
+        <span id="context-title" class="context-title-text"></span>
+        <span id="context-url" class="context-url-text"></span>
+      </div>
+      <button id="context-clear" class="context-clear">✕</button>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button class="quick-action" data-action="briefing">
+        <span class="qa-icon">📅</span>
+        <span class="qa-label">Briefing</span>
+      </button>
+      <button class="quick-action" data-action="triage">
+        <span class="qa-icon">⚡</span>
+        <span class="qa-label">Triage</span>
+      </button>
+      <button class="quick-action" data-action="followups">
+        <span class="qa-icon">✅</span>
+        <span class="qa-label">Follow-ups</span>
+      </button>
+      <button class="quick-action" data-action="memory">
+        <span class="qa-icon">🧠</span>
+        <span class="qa-label">Memory</span>
+      </button>
+    </div>
+
+    <!-- Chat Area -->
+    <div id="chat-area" class="chat-area">
+      <div id="messages" class="messages">
+        <div class="message assistant">
+          <div class="msg-avatar">
+            <svg width="20" height="20" viewBox="0 0 56 56" fill="none">
+              <path d="M28 4C16 4 6 14 6 26c0 8 4 14 10 18 4-6 6-10 12-10s8 4 12 10c6-4 10-10 10-18C50 14 40 4 28 4z" fill="#00e5c0" opacity="0.9"/>
+              <circle cx="28" cy="26" r="6" fill="#0a0a14"/>
+            </svg>
+          </div>
+          <div class="msg-content">
+            Hey! I'm your Wave Assistant. Ask me anything, or use the quick actions above. I can see what page you're on and remember things across sessions. Try the mic to talk, or tap the speaker icon to hear my responses!
+          </div>
+        </div>
+      </div>
+      <div id="typing-indicator" class="typing-indicator" style="display:none;">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+
+    <!-- Voice Recording Overlay -->
+    <div id="voice-overlay" class="voice-overlay" style="display:none;">
+      <div class="voice-waveform">
+        <div class="voice-bar"></div>
+        <div class="voice-bar"></div>
+        <div class="voice-bar"></div>
+        <div class="voice-bar"></div>
+        <div class="voice-bar"></div>
+      </div>
+      <span id="voice-status" class="voice-status">Listening…</span>
+      <span id="voice-interim" class="voice-interim"></span>
+    </div>
+
+    <!-- TTS Speaking Indicator -->
+    <div id="tts-indicator" class="tts-indicator" style="display:none;">
+      <div class="tts-wave">
+        <div class="tts-bar"></div>
+        <div class="tts-bar"></div>
+        <div class="tts-bar"></div>
+      </div>
+      <span class="tts-label">Speaking…</span>
+      <button id="tts-stop" class="tts-stop">Stop</button>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <button id="mic-btn" class="mic-btn" title="Voice input">
+          <svg class="mic-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+          <svg class="mic-stop-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+            <rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+        <textarea id="chat-input" class="chat-input" placeholder="Message Wave Assistant…" rows="1"></textarea>
+        <button id="send-btn" class="send-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="input-meta">
+        <span id="credit-info" class="credit-info"></span>
+        <span id="voice-hint" class="voice-hint" style="display:none;">Tap mic to speak • Auto-sends on pause</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Panel -->
+  <div id="settings-panel" class="settings-panel" style="display:none;">
+    <div class="settings-header">
+      <button id="settings-back" class="icon-btn">←</button>
+      <span class="settings-title">Settings</span>
+    </div>
+    <div class="settings-body">
+      <div class="setting-group">
+        <label class="setting-label">Auth Token</label>
+        <input type="password" id="settings-token" class="auth-input" />
+        <button id="update-token" class="btn-secondary btn-sm">Update</button>
+      </div>
+      <div class="setting-group">
+        <label class="setting-label">Workspace ID</label>
+        <input type="text" id="settings-workspace" class="auth-input" />
+      </div>
+      <div class="setting-group">
+        <label class="setting-toggle">
+          <input type="checkbox" id="settings-orb" checked />
+          <span>Show floating orb on pages</span>
+        </label>
+      </div>
+
+      <!-- Voice Input Settings -->
+      <div class="setting-divider"></div>
+      <div class="setting-section-title">Voice Input</div>
+      <div class="setting-group">
+        <label class="setting-toggle">
+          <input type="checkbox" id="settings-voice-auto-send" checked />
+          <span>Auto-send message after voice input</span>
+        </label>
+      </div>
+      <div class="setting-group">
+        <label class="setting-label">Voice Language (input)</label>
+        <select id="settings-voice-lang" class="auth-input">
+          <option value="en-US">English (US)</option>
+          <option value="en-GB">English (UK)</option>
+          <option value="es-ES">Spanish</option>
+          <option value="fr-FR">French</option>
+          <option value="de-DE">German</option>
+          <option value="ja-JP">Japanese</option>
+          <option value="zh-CN">Chinese (Mandarin)</option>
+          <option value="pt-BR">Portuguese (Brazil)</option>
+        </select>
+      </div>
+
+      <!-- TTS Settings -->
+      <div class="setting-divider"></div>
+      <div class="setting-section-title">Text-to-Speech</div>
+      <div class="setting-group">
+        <label class="setting-toggle">
+          <input type="checkbox" id="settings-tts-auto" />
+          <span>Auto-read AI responses aloud</span>
+        </label>
+      </div>
+      <div class="setting-group">
+        <label class="setting-label">TTS Voice</label>
+        <select id="settings-tts-voice" class="auth-input">
+          <option value="">System Default</option>
+        </select>
+        <button id="tts-test" class="btn-secondary btn-sm">Test Voice</button>
+      </div>
+      <div class="setting-group">
+        <label class="setting-label">Speech Rate: <span id="rate-value">1.0x</span></label>
+        <input type="range" id="settings-tts-rate" min="0.5" max="2" step="0.1" value="1" class="setting-slider" />
+      </div>
+      <div class="setting-group">
+        <label class="setting-label">Pitch: <span id="pitch-value">1.0</span></label>
+        <input type="range" id="settings-tts-pitch" min="0" max="2" step="0.1" value="1" class="setting-slider" />
+      </div>
+
+      <div class="setting-divider"></div>
+      <div class="setting-group">
+        <button id="disconnect-btn" class="btn-danger">Disconnect</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
